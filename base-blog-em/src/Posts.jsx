@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { PostDetail } from "./PostDetail";
+import { useQuery } from "react-query";
 const maxPostPage = 10;
 
 async function fetchPosts() {
@@ -14,9 +15,10 @@ export function Posts() {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  // replace with useQuery
-  const data = [];
+  const { data, error, isLoading } = useQuery('posts', fetchPosts)
 
+  if (isLoading) return 'Loading...'
+  if (error) return 'An error has occurred: ' + error.message
   return (
     <>
       <ul>
